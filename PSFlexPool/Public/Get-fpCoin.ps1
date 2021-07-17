@@ -1,4 +1,4 @@
-function Get-fpCoins {
+function Get-fpCoin {
     [CmdletBinding()]
     param()
 
