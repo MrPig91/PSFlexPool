@@ -16,6 +16,9 @@ function Import-fpMinerAddress {
                 }
             }
         }
+        else{
+            Write-Warning "No saved miner address found. Use Set-fpMinerAddress to set default address to use for Miner functions!"
+        }
     }
     catch{
         $PSCmdlet.WriteError($_)
