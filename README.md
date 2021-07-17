@@ -20,10 +20,10 @@ Set-fpMinerAddress -Address "Your ETH or XCH payout address here"
 ```
 This command will set the default value for the "Address" parameter for all Miner related functions. This will will make running all these functions much eaiser and faster since you do not have enter your payout address every time you want to a run a command (see blow example). You can always override the default value even after it is set by specifying the parameter when running the command as well.
 ```Powershell
-# This what you normally would have to run without setting a default
+# This is what you normally would have to run everytime without setting a default
 Get-fpMinerWorkers -Address "You payout address" -CoinTicker XCH
 
-# And this is what you can run after setting the default address using Set-fpMinerAddress
+# And this is what you can run after setting the default address using Set-fpMinerAddress along with all other Miner relate functions
 Get-fpMinerWorkers
 ```
 
