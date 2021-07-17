@@ -14,7 +14,7 @@ function Get-fpDailyRewardPerGigahashSec {
                 if ($null -eq $Results.error){
                     [pscustomobject]@{
                         Coin = $coin
-                        DailyRewardPerGigahashSec = [int64]$Results.Result
+                        DailyRewardPerGigahashSec = [decimal]$Results.Result
                     }
                 }
                 else{
