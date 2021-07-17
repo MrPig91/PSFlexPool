@@ -14,7 +14,10 @@ function Get-fpMinerBlockReward {
             $Query = "miner/blockRewards?coin=$CoinTicker&address=$Address"
             $Results = Invoke-FlexPoolAPI -Query $Query
             if ($null -eq $Results.error){
-                $Results.result | Foreach-Object {$_.psobject.TypeNames.insert(0,"PSFlexPool.MinerBlockReward")}
+                $Results.result | Foreach-Object {
+                    $_.psobject.TypeNames.insert(0,"PSFlexPool.MinerBlockReward")
+                    $_.TimeStamp = ConvertFrom-UNIXTime $_.TimeStamp
+                }
                 $Results.result | Add-Member -NotePropertyMembers @{
                     Coin = $CoinTicker
                     Address = $Address
