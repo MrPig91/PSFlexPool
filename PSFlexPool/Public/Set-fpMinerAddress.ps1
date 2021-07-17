@@ -18,6 +18,7 @@ function Set-fpMinerAddress {
             catch{
                 Write-Error "Unable to find address on FlexPool: $($_.Exception.Message)" -ErrorAction Stop
             }
+            Import-fpMinerAddress
         }
         catch{
             $PSCmdlet.WriteError($_)            
