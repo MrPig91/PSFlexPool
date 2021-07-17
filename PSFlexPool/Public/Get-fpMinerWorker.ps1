@@ -21,7 +21,10 @@ function Get-fpMinerWorker {
             }
             $Results = Invoke-FlexPoolAPI -Query $Query -ErrorAction Stop
             if ($null -eq $Results.error){
-                $Results.result | ForEach-Object {$_.psobject.TypeNames.insert(0,"PSFlexPool.MinerWorker")}
+                $Results.result | ForEach-Object {
+                    $_.psobject.TypeNames.insert(0,"PSFlexPool.MinerWorker")
+                    $_.lastSeen = ConvertFrom-UNIXTime $_.lastSeen
+                }
                 $Results.result | Add-Member -NotePropertyMembers @{
                     Coin = $CoinTicker
                     Address = $Address

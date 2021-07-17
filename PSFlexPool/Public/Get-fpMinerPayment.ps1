@@ -20,7 +20,11 @@ function Get-fpMinerPayment {
             $Query = "miner/payments?coin=$CoinTicker&address=$Address&countervalue=$CounterValue&page=$Page"
             $Results = Invoke-FlexPoolAPI -Query $Query -ErrorAction Stop
             if ($null -eq $Results.error){
-                $Results.result.data | ForEach-Object {$_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerPayment")}
+                $Results.result.data | ForEach-Object {
+                    $_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerPayment")
+                    $_.TimeStamp = ConvertFrom-UNIXTime $_.TimeStamp
+                    $_.ConfirmedTimeStamp = ConvertFrom-UNIXTime $_.ConfirmedTimeStamp
+                }
                 [PSCustomObject]@{
                     PSTypeName = "PSFlexPool.MinerPaymentPage"
                     TotalItems = $Results.result.TotalItems

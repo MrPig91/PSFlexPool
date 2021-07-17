@@ -14,6 +14,7 @@ function Get-fpBlocksChart {
                 if ($null -eq $Results.error){
                     foreach ($blockchart in $Results.result){
                         $blockchart.psobject.TypeNames.Insert(0,"PSFlexPool.BlockChart")
+                        $blockchart.TimeStamp = ConvertFrom-UNIXTime $blockchart.TimeStamp
                         $blockchart | Add-Member -MemberType NoteProperty -Name Coin -Value $coin
                         $blockchart
                     }

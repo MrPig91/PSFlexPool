@@ -17,6 +17,7 @@ function Get-fpBlockByHash {
             $Results = Invoke-FlexPoolAPI -Query $Query
             if ($null -eq $Results.error){
                 $Results.result.psobject.TypeNames.Insert(0,"PSFlexPool.Block")
+                $Results.result.TimeStamp = ConvertFrom-UNIXTime $Results.result.TimeStamp
                 $Results.result
             }
             else{

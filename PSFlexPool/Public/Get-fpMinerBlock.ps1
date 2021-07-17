@@ -18,7 +18,10 @@ function Get-fpMinerBlock {
             $Results = Invoke-FlexPoolAPI -Query $Query
             return $Results
             if ($null -eq $Results.error){
-                $Results.result.data | ForEach-Object {$_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerBlock")}
+                $Results.result.data | ForEach-Object {
+                    $_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerBlock")
+                    $_.TimeStamp = ConvertFrom-UNIXTime $_.TimeStamp
+                }
                 [PSCustomObject]@{
                     PSTypeName = "PSFlexPool.MinerBlockPage"
                     TotalItems = $Results.result.TotalItems

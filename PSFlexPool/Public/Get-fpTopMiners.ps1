@@ -15,6 +15,10 @@ function Get-fpTopMiners {
                     foreach ($miner in $Results.result){
                         $miner.psobject.TypeNames.Insert(0,"PSFlexPool.TopMiner")
                         $miner | Add-Member -MemberType NoteProperty -Name Coin -Value $coin
+                        $miner.firstJoined = ConvertFrom-UNIXTime $miner.firstJoined
+                        $miner | Add-Member -NotePropertyMembers @{
+                            "Balance_$Coin" = (ConvertFrom-CoinBaseUnit $Coin -Value $miner.balance)
+                        }
                         $miner
                     }
                 }

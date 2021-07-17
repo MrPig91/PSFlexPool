@@ -18,6 +18,7 @@ function Get-fpMinerPaymentsStats {
             $Results = Invoke-FlexPoolAPI -Query $Query -ErrorAction Stop
             
             if ($null -eq $Results.error){
+                $Results.result.lastpayment = ConvertFrom-UNIXTime $Results.result.lastpayment
                 $Results.result | Add-Member -NotePropertyMembers @{
                     PSTypeName = "PSFlexPool.MinerPaymentsStats"
                     Coin = $CoinTicker
