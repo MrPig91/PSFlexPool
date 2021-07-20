@@ -27,6 +27,10 @@ Get-fpMinerWorkers -Address "You payout address" -CoinTicker XCH
 Get-fpMinerWorkers
 ```
 
+# Video Guide
+
+[![PSFlexPool Video Guide](https://img.youtube.com/vi/PUi4mzVzVOg/0.jpg)](https://youtu.be/PUi4mzVzVOg)
+
 # Donate
 
 If you found this module useful and want to donate you can use any of the below addresses.
