@@ -24,13 +24,16 @@ function Get-fpMinerPayment {
                     $_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerPayment")
                     $_.TimeStamp = ConvertFrom-UNIXTime $_.TimeStamp
                     $_.ConfirmedTimeStamp = ConvertFrom-UNIXTime $_.ConfirmedTimeStamp
+                    $_.duration = New-TimeSpan -Seconds $_.duration
+                    $FiatPayment = [math]::Round($Results.result.countervalue * (ConvertFrom-CoinBaseUnit -CoinTicker 'XCH' -Value $_.value),2)
+                    $_ | Add-Member -MemberType NoteProperty -Name "FiatValue" -Value $FiatPayment
                 }
                 [PSCustomObject]@{
                     PSTypeName = "PSFlexPool.MinerPaymentPage"
                     TotalItems = $Results.result.TotalItems
                     TotalPages = $Results.result.TotalPages
                     Payments = $Results.result.data
-                    $CounterValue = $Results.result.balancecountervalue
+                    CounterValue = $Results.result.countervalue
                     Coin = $CoinTicker
                     Address = $Address
                 }
