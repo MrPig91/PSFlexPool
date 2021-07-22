@@ -18,13 +18,22 @@ function Get-fpMinerPaymentsStats {
             $Results = Invoke-FlexPoolAPI -Query $Query -ErrorAction Stop
             
             if ($null -eq $Results.error){
-                $Results.result.lastpayment = ConvertFrom-UNIXTime $Results.result.lastpayment
-                $Results.result | Add-Member -NotePropertyMembers @{
+                $paymentStats = $Results.result
+                if ($null -ne $paymentStats.stats){
+                    $paymentStats.lastpayment.timestamp = ConvertFrom-UNIXTime $paymentStats.lastpayment.timestamp
+                    $paymentStats.lastpayment.duration = New-TimeSpan -Seconds $paymentStats.lastpayment.duration
+                    $paymentStats.stats.averageDuration = New-TimeSpan -Seconds $paymentStats.stats.averageDuration
+                    $FiatPayment = [math]::Round($paymentStats.countervalue * (ConvertFrom-CoinBaseUnit -CoinTicker 'XCH' -Value $paymentStats.lastpayment.value),2)
+                    $totalfiatpaid = [math]::Round($paymentStats.countervalue * (ConvertFrom-CoinBaseUnit -CoinTicker 'XCH' -Value $paymentStats.stats.totalpaid),2)
+                    $paymentStats.lastpayment | Add-Member -MemberType NoteProperty -Value $FiatPayment -Name "FiatValue"
+                    $paymentStats.stats | Add-Member -MemberType NoteProperty -Name "TotalFiatPaid" -Value $totalfiatpaid
+                }
+                $paymentStats | Add-Member -NotePropertyMembers @{
                     PSTypeName = "PSFlexPool.MinerPaymentsStats"
                     Coin = $CoinTicker
                     Address = $Address
                 }
-                $Results.result
+                $paymentStats
             }
             else{
                 Write-Error $Results.error -ErrorAction Stop
