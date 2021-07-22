@@ -16,7 +16,6 @@ function Get-fpMinerBlock {
         try{
             $Query = "miner/blocks?coin=$CoinTicker&address=$Address&page=$Page"
             $Results = Invoke-FlexPoolAPI -Query $Query
-            return $Results
             if ($null -eq $Results.error){
                 $Results.result.data | ForEach-Object {
                     $_.psobject.TypeNames.Insert(0,"PSFlexPool.MinerBlock")
